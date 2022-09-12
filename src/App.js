@@ -1,26 +1,41 @@
 import './App.css';
-import React, { useState } from 'react'
-
+import Navbar from './components/Navbar';
+import { useState } from 'react';
+import Textutlity from './components/Textutlity';
+import Alert from './components/Alert';
 
 function App() {
-  var today = new Date();
-  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    const [Time, setTime] = useState(time);
-    const updatetime = ()=>{
-      
-      setTime(time);
-    }
-    setInterval(updatetime, 1000);
-    
-        
-    
+  
+  const [Mode, setMode] = useState('light');
+  const [alert, setAlert] = useState(null);
+  const showAlert=(message,type)=>
+  {
+    setAlert({message:message, type:type});
+   setTimeout(() => {
+    setAlert(null)
+   }, 1500);
+
+  }
+  const toggel=()=>
+  {
+    if(Mode==='dark')
+  {
+    setMode('light');
+    document.body.style.backgroundColor="white";
+    showAlert("Light mode enabled:", "Success");
+  }
+  else
+  {
+    setMode('dark');
+    document.body.style.backgroundColor="black";
+    showAlert("Dark mode enabled:", "Success");
+  }
+  }  
   return (
    <div>
-    
-    <h1>My Digital Clock</h1>
-      
-      <h2>{Time}</h2>
-<p className="author">By jitendra</p>
+ <Navbar heading="Home Page" mode={Mode} toggel={toggel}/>
+ <Alert alert={alert}/>
+ <Textutlity title="Textutlity Conversion, Entity Convert and Para-Merge" showAlert={showAlert} mode={Mode}/>
       </div>
   )
 }
